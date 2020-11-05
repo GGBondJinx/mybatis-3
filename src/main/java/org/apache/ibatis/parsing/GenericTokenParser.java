@@ -17,10 +17,19 @@ package org.apache.ibatis.parsing;
 
 /**
  * @author Clinton Begin
+ *
+ * 通过的 Token 解析器
  */
 public class GenericTokenParser {
 
+  /**
+   * 开始的 token 字符串
+   */
   private final String openToken;
+
+  /**
+   * 结束的 token 字符串
+   */
   private final String closeToken;
   private final TokenHandler handler;
 
@@ -35,20 +44,30 @@ public class GenericTokenParser {
       return "";
     }
     // search open token
+    // 寻找 openToken 的位置
     int start = text.indexOf(openToken);
     if (start == -1) {
+      // 找不到直接返回
       return text;
     }
     char[] src = text.toCharArray();
+    // 起始查找位置
     int offset = 0;
+    // 结果
     final StringBuilder builder = new StringBuilder();
+    // 匹配到 beginToken 和 closeToken 之间的表达式
     StringBuilder expression = null;
+    // 循环匹配
     do {
+      // 转义字符
       if (start > 0 && src[start - 1] == '\\') {
         // this open token is escaped. remove the backslash and continue.
+        // 因为 openToken 前面一个位置是 \ 转义字符，忽略 \
         builder.append(src, offset, start - offset - 1).append(openToken);
+        // 修改 offset
         offset = start + openToken.length();
       } else {
+        // 非转义字符
         // found open token. let's search close token.
         if (expression == null) {
           expression = new StringBuilder();

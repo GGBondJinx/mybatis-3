@@ -15,20 +15,22 @@
  */
 package org.apache.ibatis.builder.xml;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-
 import org.apache.ibatis.io.Resources;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * Offline entity resolver for the MyBatis DTDs.
  *
  * @author Clinton Begin
  * @author Eduardo Macarron
+ *
+ * MyBatis 自定义 EntityResolver 实现类，用于加载本地的 mybatis-3-config.dtd 和 mybatis-3-mapper.dtd 这两个 DTD 文件
  */
 public class XMLMapperEntityResolver implements EntityResolver {
 
@@ -37,7 +39,13 @@ public class XMLMapperEntityResolver implements EntityResolver {
   private static final String MYBATIS_CONFIG_SYSTEM = "mybatis-3-config.dtd";
   private static final String MYBATIS_MAPPER_SYSTEM = "mybatis-3-mapper.dtd";
 
+  /**
+   * 本地 mybatis-3-config.dtd 文件
+   */
   private static final String MYBATIS_CONFIG_DTD = "org/apache/ibatis/builder/xml/mybatis-3-config.dtd";
+  /**
+   * 本地 mybatis-3-mapper.dtd 文件
+   */
   private static final String MYBATIS_MAPPER_DTD = "org/apache/ibatis/builder/xml/mybatis-3-mapper.dtd";
 
   /**
@@ -74,7 +82,9 @@ public class XMLMapperEntityResolver implements EntityResolver {
     if (path != null) {
       try {
         InputStream in = Resources.getResourceAsStream(path);
+        // 创建 InputSource 对象
         source = new InputSource(in);
+        // 设置 publicId systemId 属性
         source.setPublicId(publicId);
         source.setSystemId(systemId);
       } catch (IOException e) {
