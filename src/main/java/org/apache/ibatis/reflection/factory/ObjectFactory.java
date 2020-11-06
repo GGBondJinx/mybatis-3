@@ -22,6 +22,8 @@ import java.util.Properties;
  * MyBatis uses an ObjectFactory to create all needed new Objects.
  *
  * @author Clinton Begin
+ *
+ * Object 工厂接口，用于创建指定类的对象
  */
 public interface ObjectFactory {
 

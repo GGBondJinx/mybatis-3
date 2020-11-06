@@ -15,16 +15,14 @@
  */
 package org.apache.ibatis.reflection;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.apache.ibatis.domain.misc.RichType;
+import org.apache.ibatis.domain.misc.generics.GenericConcrete;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.domain.misc.RichType;
-import org.apache.ibatis.domain.misc.generics.GenericConcrete;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MetaClassTest {
 

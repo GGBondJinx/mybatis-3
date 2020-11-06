@@ -15,14 +15,18 @@
  */
 package org.apache.ibatis.reflection.invoker;
 
-import java.lang.reflect.Field;
-
 import org.apache.ibatis.reflection.Reflector;
+
+import java.lang.reflect.Field;
 
 /**
  * @author Clinton Begin
  */
 public class GetFieldInvoker implements Invoker {
+
+  /**
+   * Field 对象
+   */
   private final Field field;
 
   public GetFieldInvoker(Field field) {
@@ -43,6 +47,9 @@ public class GetFieldInvoker implements Invoker {
     }
   }
 
+  /**
+   * @return 返回属性类型
+   */
   @Override
   public Class<?> getType() {
     return field.getType();
