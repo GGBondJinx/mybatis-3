@@ -22,6 +22,8 @@ import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
 
 /**
  * @author Clinton Begin
+ *
+ * 系统级的 MetaObject 对象，主要提供了 ObjectFactory、ObjectWrapperFactory、空 MetaObject 的单例
  */
 public final class SystemMetaObject {
 
@@ -36,6 +38,9 @@ public final class SystemMetaObject {
   private static class NullObject {
   }
 
+  /**
+   * 创建 MetaObject 对象
+   */
   public static MetaObject forObject(Object object) {
     return MetaObject.forObject(object, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY, new DefaultReflectorFactory());
   }
