@@ -17,6 +17,8 @@ package org.apache.ibatis.exceptions;
 
 /**
  * @author Clinton Begin
+ *
+ * 已经在 2015 年被废弃，取代它的是 PersistenceException 类。
  */
 @Deprecated
 public class IbatisException extends RuntimeException {
