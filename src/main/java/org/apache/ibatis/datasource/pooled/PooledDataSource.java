@@ -356,21 +356,27 @@ public class PooledDataSource implements DataSource {
    */
   public void forceCloseAll() {
     synchronized (state) {
+      // 计算 expectedConnectionTypeCode
       expectedConnectionTypeCode = assembleConnectionTypeCode(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+      // 遍历 activeConnections，进行关闭
       for (int i = state.activeConnections.size(); i > 0; i--) {
         try {
+          // 设置为失效
           PooledConnection conn = state.activeConnections.remove(i - 1);
           conn.invalidate();
 
           Connection realConn = conn.getRealConnection();
+          // 回滚事务
           if (!realConn.getAutoCommit()) {
             realConn.rollback();
           }
+          // 关闭真实的连接
           realConn.close();
         } catch (Exception e) {
           // ignore
         }
       }
+      // 遍历 idleConnections，进行关闭
       for (int i = state.idleConnections.size(); i > 0; i--) {
         try {
           PooledConnection conn = state.idleConnections.remove(i - 1);
@@ -665,12 +671,14 @@ public class PooledDataSource implements DataSource {
   /**
    * Unwraps a pooled connection to get to the 'real' connection
    *
-   * @param conn
-   *          - the pooled connection to unwrap
+   * @param conn - the pooled connection to unwrap
    * @return The 'real' connection
+   * 获取真实的连接
    */
   public static Connection unwrapConnection(Connection conn) {
+    // 如果传入的是被代理的连接
     if (Proxy.isProxyClass(conn.getClass())) {
+      // 获取 InvocationHandler 对象
       InvocationHandler handler = Proxy.getInvocationHandler(conn);
       if (handler instanceof PooledConnection) {
         return ((PooledConnection) handler).getRealConnection();
@@ -679,6 +687,10 @@ public class PooledDataSource implements DataSource {
     return conn;
   }
 
+  /**
+   * 当前 对象被释放时，关闭所有连接，执行对象销毁
+   * @throws Throwable
+   */
   @Override
   protected void finalize() throws Throwable {
     forceCloseAll();
